@@ -12,7 +12,7 @@ const userSchema = new Schema(
       type: Boolean,
       defaut: false,
     },
-    nickname: String
+    nickname: String,
     role: {
       type: String,
       enum: ["employer", "collab"],

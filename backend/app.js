@@ -8,6 +8,7 @@ const logger = require("morgan");
 const path = require("path");
 const cors = require("cors");
 const session = require("express-session");
+const flash = require("connect-flash");
 const passport = require("./config/passport");
 
 mongoose
@@ -39,6 +40,7 @@ app.use(
     cookie: { maxAge: 1000 * 60 * 60 },
   })
 );
+app.use(flash());
 require("./config/passport")(app);
 // app.use(passport.initialize());
 // app.use(passport.session());
