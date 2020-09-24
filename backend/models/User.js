@@ -8,6 +8,11 @@ const userSchema = new Schema(
     photo: String,
     googleId: String,
     facebookId: String,
+    collabValidated: {
+      type: Boolean,
+      defaut: false,
+    },
+    nickname: String
     role: {
       type: String,
       enum: ["employer", "collab"],
