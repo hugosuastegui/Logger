@@ -8,6 +8,8 @@ const {
   deletePoi,
 } = require("../controllers/poi");
 
+const { getLog, createLog, deleteLog } = require("../controllers/log");
+
 router.get("/", (req, res, next) => {
   res.status(200).json({ msg: "Working" });
 });
@@ -21,3 +23,9 @@ router.get("/pois/:poiId", catchErrors(getPoi));
 router.post("/pois/", catchErrors(createPoi));
 router.put("/pois/:poiId", catchErrors(updatePoi));
 router.delete("/pois/:poiId", catchErrors(deletePoi));
+
+// ============== LOGS ================
+
+router.get("/logs/:logId", catchErrors(getLog));
+router.post("/logs/:poiId", catchErrors(createLog));
+router.delete("/logs/:logId", catchErrors(deleteLog));

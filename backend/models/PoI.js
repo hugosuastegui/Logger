@@ -4,8 +4,8 @@ const poiSchema = new Schema(
   {
     name: String,
     location: String,
-    checkinTimes: [Number],
-    checkoutTimes: [Number],
+    checkinTime: Number,
+    tolerance: String,
     weekdays: {
       type: [String],
       enum: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],

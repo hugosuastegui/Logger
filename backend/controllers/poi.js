@@ -7,7 +7,7 @@ exports.getPois = async (req, res) => {
 
 exports.getPoi = async (req, res) => {
   const { poiId } = req.params;
-  const poi = await Poi.findById(poiId);
+  const poi = await Poi.findById(poiId).populate("logs");
   res.status(200).json({ poi });
 };
 
