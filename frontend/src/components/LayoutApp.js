@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import {
@@ -7,37 +7,50 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 
+import MY_SERVICE from "../services";
+import { MyContext } from "../context.js";
+
+const { logOut } = MY_SERVICE;
 const { Sider, Header, Content, Footer } = Layout;
 
 function LayoutApp({ children }) {
+  const { clearCtxUser, user } = useContext(MyContext);
+
+  const logoutProcess = async () => {
+    await logOut();
+    clearCtxUser(user);
+  };
+
   return (
     <Layout style={{ height: "100vh" }}>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
-        <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            <Link to="/signup">SignUp</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            <Link to="/login">LogIn</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
-          </Menu.Item>
-          <Menu.Item key="4" icon={<UserOutlined />}>
-            nav 4
-          </Menu.Item>
-        </Menu>
-      </Sider>
+      {user && (
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={(broken) => {
+            console.log(broken);
+          }}
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type);
+          }}
+        >
+          <div className="logo" />
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
+            <Menu.Item key="1" icon={<UserOutlined />}>
+              <Link to="/">Brief</Link>
+            </Menu.Item>
+            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+              <Link to="/settings">Settings</Link>
+            </Menu.Item>
+            <Menu.Item key="3" icon={<UploadOutlined />}>
+              nav 3
+            </Menu.Item>
+            <Menu.Item key="4" icon={<UserOutlined />} onClick={logoutProcess}>
+              Logout
+            </Menu.Item>
+          </Menu>
+        </Sider>
+      )}
       <Layout>
         <Header>
           <div className="logo">
@@ -53,7 +66,7 @@ function LayoutApp({ children }) {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2018 Created by Ant UED
+          Created by Hugo Suastegui
         </Footer>
       </Layout>
     </Layout>

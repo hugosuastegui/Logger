@@ -41,9 +41,9 @@ app.use(
   })
 );
 app.use(flash());
-require("./config/passport")(app);
-// app.use(passport.initialize());
-// app.use(passport.session());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));

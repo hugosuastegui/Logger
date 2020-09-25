@@ -5,20 +5,24 @@ const userSchema = new Schema(
     email: String,
     name: String,
     password: String,
-    photo: String,
+    photo: {
+      type: String,
+      default:
+        "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
+    },
     googleId: String,
     facebookId: String,
     collabValidated: {
       type: Boolean,
-      defaut: false,
+      default: false,
     },
     nickname: String,
     role: {
       type: String,
       enum: ["employer", "collab"],
     },
-    employerToker: String,
-    employerPoI: {
+    employerTokens: String,
+    employerPoIs: {
       type: Schema.Types.ObjectId,
       ref: "PoI",
     },

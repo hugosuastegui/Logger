@@ -16,6 +16,10 @@ const logSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Poi",
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

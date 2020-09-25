@@ -1,5 +1,12 @@
 const Log = require("../models/Log");
 const Poi = require("../models/PoI");
+const User = require("../models/User");
+
+exports.getLogs = async (req, res) => {
+  const userId = req.user.id;
+  const logs = await Log.find({ user: userId });
+  res.status(200).json({ logs });
+};
 
 exports.getLog = async (req, res) => {
   const { logId } = req.params;
@@ -17,8 +24,12 @@ exports.createLog = async (req, res) => {
     tolerance,
     weekdays,
     poi: poiId,
+    user: req.user.id,
     valid: checkinTime < poi.checkinTime + poi.tolerance ? true : false,
   });
+
+  await User.findByIdAndUpdate(req.user.id, { $push: { collabLogs: log } });
+
   res.status(200).json({ log });
 };
 

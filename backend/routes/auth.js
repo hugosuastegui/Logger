@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const passport = require("passport");
+const passport = require("../config/passport");
 const bcrypt = require("bcrypt");
 
 const bcryptSalt = 10;
 
 router.post("/signup", (req, res, next) => {
-  const role = req.body.role ? "employer" : "collab";
+  const role = req.body.role === true ? "employer" : "collab";
   const email = req.body.email;
   const password = req.body.password;
   const repeatedPassword = req.body.repeatedPassword;
@@ -61,13 +61,57 @@ router.get("/logout", (req, res) => {
 router.get("/profile", isAuth, (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => res.status(200).json({ user }))
-    .catch((err) => res.status(500).json({ err }));
+    .catch((err) =>
+      res.status(500).json({ message: `Error ocurred in get/profile: ${err}` })
+    );
 });
+
+router.get("/info", isAuth, (req, res, next) => {
+  User.findById(req.user._id)
+    .populate("employerTokens")
+    .populate("collabLogs")
+    .populate("collabs")
+    .populate("employer")
+    .then((user) => res.status(200).json({ user }))
+    .catch((err) =>
+      res.status(500).json({ message: `Error ocurred in get/profile: ${err}` })
+    );
+});
+
+// router.get("/info", isAuth, (req, res, next) => {
+//   console.log(req.user._id);
+//   const user = User.findById(req.user._id);
+//   // .populate("employerTokens")
+//   // .populate("collabLogs")
+//   // .populate("collabs")
+//   // .populate("employer");
+//   console.log(user);
+//   res.status(200).json({ user });
+// });
 
 function isAuth(req, res, next) {
   req.isAuthenticated()
     ? next()
     : res.status(401).json({ msg: "Log in first" });
 }
+
+// ============== GOOGLE =================
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get("/auth/google/callback", (req, res, next) => {
+  passport.authenticate("google", { scope: ["email"] }, (err, user, info) => {
+    if (err) return res.status(500).json({ err, info });
+    if (!user) return res.status(401).json({ err, info });
+
+    req.login(user, (error) => {
+      if (error) return res.status(401).json({ error });
+      return res.redirect(process.env.FRONTENDPOINT + "/");
+    });
+  })(req, res, next);
+});
 
 module.exports = router;

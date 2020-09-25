@@ -23,6 +23,9 @@ const MY_SERVICE = {
   getProfile: async () => {
     return await service.get("/profile");
   },
+  getUserInfo: async (user) => {
+    return await service.get("/info");
+  },
 };
 
 export default MY_SERVICE;

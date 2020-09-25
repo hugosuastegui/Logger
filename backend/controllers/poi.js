@@ -21,6 +21,7 @@ exports.createPoi = async (req, res) => {
     weekdays,
     employer: req.user.id,
   });
+  await User.findByIdAndUpdate(req.user.id, { $push: { employerPoIs: poi } });
   res.status(200).json({ poi });
 };
 

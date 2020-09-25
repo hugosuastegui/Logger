@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, Row, Col, Divider } from "antd";
 import MY_SERVICE from "../services";
 import { MyContext } from "../context.js";
 import { Link } from "react-router-dom";
 const { signup, login } = MY_SERVICE;
+
+let baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
 
 const { Option } = Select;
 
@@ -12,6 +15,7 @@ function Signup({ history }) {
   const { setCtxUser } = useContext(MyContext);
 
   async function signupProcess(values) {
+    console.log(values);
     await signup(values);
     const {
       data: { user },
@@ -70,8 +74,15 @@ function Signup({ history }) {
         </Form.Item>
       </Form>
       <p>
-        Already have an account?<Link to="/login">Login</Link>
+        Already have an account?<Link to="/login"> Log In</Link>
       </p>
+      <Divider>Or</Divider>
+      <br />
+      <Row>
+        <Button danger type="primary" block>
+          <a href={`${baseURL}/auth/google`}>Login with Google as a Collab</a>
+        </Button>
+      </Row>
     </div>
   );
 }
