@@ -48,28 +48,9 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, failureDetails) => {
-    if (err) {
-      console.log(failureDetails);
-      res
-        .status(500)
-        .json({ message: "Something went wrong authenticating user" });
-      return;
-    }
-
-    if (!user) {
-      res.status(401).json(failureDetails);
-      return;
-    }
-    req.login(user, (err) => {
-      if (err) {
-        res.status(500).json({ message: "Session save went bad." });
-        return;
-      }
-      res.status(200).json(user);
-    });
-  })(req, res, next);
+router.post("/login", passport.authenticate("local"), (req, res, next) => {
+  const { user } = req;
+  res.status(200).json({ user });
 });
 
 router.get("/logout", (req, res) => {
@@ -77,20 +58,10 @@ router.get("/logout", (req, res) => {
   res.status(200).json({ message: "logged out" });
 });
 
-router.get("/currentuser", (req, res) => {
-  res.status(200).json({ user: req.user });
-});
-
-router.get("/brief", isAuth, (req, res, next) => {
+router.get("/profile", isAuth, (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => res.status(200).json({ user }))
     .catch((err) => res.status(500).json({ err }));
-});
-
-router.put("/photo", async (req, res) => {
-  const { photo } = req.body;
-  await User.findByIdAndUpdate(req.user.id, { photo });
-  res.status(200).json({ message: "ok" });
 });
 
 function isAuth(req, res, next) {
