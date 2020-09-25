@@ -4,8 +4,9 @@ import Home from "./components/home/Home";
 import NotFound from "./components/404/NotFound.js";
 import LayoutApp from "./components/LayoutApp";
 import Signup from "./Pages/Signup";
+import Login from "./Pages/Login";
+import Brief from "./Pages/Brief";
 
-const Login = () => <h1>Login</h1>;
 const Scan = () => <h1>Scan</h1>;
 const Settings = () => <h1>Settings</h1>;
 const Collabs = () => <h1>Collabs</h1>;
@@ -17,7 +18,7 @@ const Router = () => (
   <BrowserRouter>
     <LayoutApp>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Brief} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/scan" component={Scan} />
