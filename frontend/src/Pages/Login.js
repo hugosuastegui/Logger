@@ -23,10 +23,10 @@ function Signup({ history }) {
     delete user.salt;
     console.log(user);
     setCtxUser(user);
-    // history.push("/");
+    history.push("/");
   }
 
-  return (
+  return !user ? (
     <div>
       <h2>Welcome!</h2>
       <h3>Please Log In</h3>
@@ -64,6 +64,8 @@ function Signup({ history }) {
         </Button>
       </Row>
     </div>
+  ) : (
+    <Redirect to="/" />
   );
 }
 
