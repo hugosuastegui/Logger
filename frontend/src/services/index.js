@@ -23,8 +23,14 @@ const MY_SERVICE = {
   getProfile: async () => {
     return await service.get("/profile");
   },
-  getUserInfo: async (user) => {
+  getUserInfo: async () => {
     return await service.get("/info");
+  },
+  getAllEmployers: async () => {
+    return await service.get("/employers");
+  },
+  requestEmployer: async (employerId) => {
+    return await service.get(`/requestEmployer/${employerId}`);
   },
 };
 

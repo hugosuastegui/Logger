@@ -28,9 +28,11 @@ exports.createLog = async (req, res) => {
     valid: checkinTime < poi.checkinTime + poi.tolerance ? true : false,
   });
 
-  await User.findByIdAndUpdate(req.user.id, { $push: { collabLogs: log } });
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    $push: { collabLogs: log },
+  });
 
-  res.status(200).json({ log });
+  res.status(200).json({ log, user });
 };
 
 exports.deleteLog = async (req, res) => {

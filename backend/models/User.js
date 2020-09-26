@@ -22,18 +22,24 @@ const userSchema = new Schema(
       enum: ["employer", "collab"],
     },
     employerTokens: String,
-    employerPoIs: {
-      type: Schema.Types.ObjectId,
-      ref: "PoI",
-    },
-    collabLogs: {
-      type: Schema.Types.ObjectId,
-      ref: "Logs",
-    },
-    collabs: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
+    employerPoIs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "PoI",
+      },
+    ],
+    collabLogs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Log",
+      },
+    ],
+    collabs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     employer: {
       type: Schema.Types.ObjectId,
       ref: "User",

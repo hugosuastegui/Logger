@@ -1,5 +1,5 @@
 const Poi = require("../models/PoI");
-
+const User = require("../models/User");
 exports.getPois = async (req, res) => {
   const pois = await Poi.find();
   res.status(200).json({ pois });
@@ -21,7 +21,7 @@ exports.createPoi = async (req, res) => {
     weekdays,
     employer: req.user.id,
   });
-  await User.findByIdAndUpdate(req.user.id, { $push: { employerPoIs: poi } });
+  await User.findByIdAndUpdate(req.user._id, { $push: { employerPoIs: poi } });
   res.status(200).json({ poi });
 };
 

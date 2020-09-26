@@ -8,6 +8,12 @@ const {
   deletePoi,
 } = require("../controllers/poi");
 
+const {
+  getInfo,
+  getEmployers,
+  requestEmployer,
+} = require("../controllers/users");
+
 const { getLog, createLog, deleteLog, getLogs } = require("../controllers/log");
 
 router.get("/", (req, res, next) => {
@@ -30,3 +36,9 @@ router.get("/logs/", catchErrors(getLogs));
 router.get("/logs/:logId", catchErrors(getLog));
 router.post("/logs/:poiId", catchErrors(createLog));
 router.delete("/logs/:logId", catchErrors(deleteLog));
+
+// ================= USERS ================
+
+router.get("/info", catchErrors(getInfo));
+router.get("/employers", catchErrors(getEmployers));
+router.get("/requestEmployer/:employerId", catchErrors(requestEmployer));

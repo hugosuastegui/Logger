@@ -3,7 +3,7 @@ import { Form, Input, Button, Select, Divider, Row } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import MY_SERVICE from "../services";
 import { MyContext } from "../context.js";
-const { signup, login } = MY_SERVICE;
+const { login } = MY_SERVICE;
 
 const { Option } = Select;
 
@@ -14,22 +14,23 @@ function Signup({ history }) {
   const [form] = Form.useForm();
   const { clearCtxUser, user, setCtxUser } = useContext(MyContext);
 
-  async function signupProcess(values) {
+  async function loginProcess(values) {
     const {
       data: { user },
     } = await login(values);
     delete user.password;
     delete user.hash;
     delete user.salt;
+    console.log(user);
     setCtxUser(user);
-    history.push("/");
+    // history.push("/");
   }
 
-  return !user ? (
+  return (
     <div>
       <h2>Welcome!</h2>
       <h3>Please Log In</h3>
-      <Form layout="vertical" name="basic" form={form} onFinish={signupProcess}>
+      <Form layout="vertical" name="basic" form={form} onFinish={loginProcess}>
         <Form.Item
           label="Email"
           name="email"
@@ -63,8 +64,6 @@ function Signup({ history }) {
         </Button>
       </Row>
     </div>
-  ) : (
-    <Redirect to="/" />
   );
 }
 

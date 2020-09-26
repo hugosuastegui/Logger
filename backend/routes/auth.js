@@ -40,7 +40,7 @@ router.post("/signup", (req, res, next) => {
     newUser
       .save()
       .then(() => {
-        res.status(200).json({ message: "ok" });
+        res.status(200).json({ message: "success on signup" });
       })
       .catch((err) => {
         res.status(500).json({ message: "Something went wrong" });
@@ -65,29 +65,6 @@ router.get("/profile", isAuth, (req, res, next) => {
       res.status(500).json({ message: `Error ocurred in get/profile: ${err}` })
     );
 });
-
-router.get("/info", isAuth, (req, res, next) => {
-  User.findById(req.user._id)
-    .populate("employerTokens")
-    .populate("collabLogs")
-    .populate("collabs")
-    .populate("employer")
-    .then((user) => res.status(200).json({ user }))
-    .catch((err) =>
-      res.status(500).json({ message: `Error ocurred in get/profile: ${err}` })
-    );
-});
-
-// router.get("/info", isAuth, (req, res, next) => {
-//   console.log(req.user._id);
-//   const user = User.findById(req.user._id);
-//   // .populate("employerTokens")
-//   // .populate("collabLogs")
-//   // .populate("collabs")
-//   // .populate("employer");
-//   console.log(user);
-//   res.status(200).json({ user });
-// });
 
 function isAuth(req, res, next) {
   req.isAuthenticated()
