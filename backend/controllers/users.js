@@ -26,7 +26,12 @@ exports.getEmployers = async (req, res, next) => {
 exports.requestEmployer = async (req, res, next) => {
   const { employerId } = req.params;
   const employer = await User.findById(employerId);
-  await User.findByIdAndUpdate(req.user.id, { $push: { employer } });
+  if (typeof employer !== undefined) {
+    await User.findByIdAndUpdate(req.user.id, { $push: { employer } });
+    res.status(200).json({ message: "Please wait to be validated" });
+  } else {
+    res.status(200).json({ message: `Couldn't find user` });
+  }
 };
 
 // router.get("/info", isAuth, (req, res, next) => {

@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { MyContext } from "../context";
-import { Redirect, Link } from "react-router-dom";
-import { Button, Modal } from "antd";
+import { Redirect } from "react-router-dom";
+import { Button, Form, Input } from "antd";
 import MY_SERVICE from "../services";
 
-const { getUserInfo, getAllEmployers, requestEmployer } = MY_SERVICE;
+const { getUserInfo, requestEmployer } = MY_SERVICE;
 
 const Brief = () => {
   const [logs, setlogs] = useState(null);
-  const [employers, setemployers] = useState([]);
-  const [modal, setmodal] = useState(false);
   const { user } = useContext(MyContext);
+  const [form] = Form.useForm();
+  const [message, setmessage] = useState("");
 
   useEffect(() => {
     async function fetchInfo() {
@@ -21,23 +21,13 @@ const Brief = () => {
       } = await getUserInfo();
       setlogs(collabLogs);
     }
-
-    async function fetchEmployers() {
-      const {
-        data: { user },
-      } = await getAllEmployers();
-      setemployers(user);
-    }
-
-    fetchEmployers();
     fetchInfo();
   }, []);
 
-  async function addEmployer(el) {
-    await requestEmployer(el._id);
-    setmodal(false);
-    console.log(modal);
-  }
+  const addEmployer = async (values) => {
+    requestEmployer(values.employer);
+    setmessage("Please wait to be validated");
+  };
 
   return user ? (
     user.role === "employer" ? (
@@ -52,32 +42,32 @@ const Brief = () => {
         <br />
         <br />
         <h2>{user.email}</h2>
-        <Button onClick={() => setmodal(true)}>Add Employer</Button>
-        <Modal
-          title="Basic Modal"
-          visible={modal}
-          onCancel={() => setmodal(false)}
-          footer={
-            <Button type="primary" danger onClick={() => setmodal(false)}>
-              Cancel
-            </Button>
-          }
-        >
-          <h2>Employers Listed in the App</h2>
-          {employers.length !== 0 ? (
-            <ul>
-              {employers.map((el, ind) => (
-                <li key={ind}>
-                  <Link onClick={() => addEmployer(el)}>{el.email}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <h3>No listed Employers yet :(</h3>
-          )}
-        </Modal>
         <br />
         <br />
+        {user.employer === null ? (
+          <Form
+            layout="vertical"
+            name="basic"
+            form={form}
+            onFinish={addEmployer}
+          >
+            <Form.Item
+              label="Add Employer"
+              name="employer"
+              rules={[{ required: true, message: "Enter Id" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Add
+              </Button>
+            </Form.Item>
+          </Form>
+        ) : (
+          <></>
+        )}
+        <p>{message}</p>
         <h3>Recent Logs</h3>
         <ul>
           {logs ? (

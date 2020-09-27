@@ -1,18 +1,16 @@
 import React, { useContext } from "react";
-import { Form, Input, Button, Select, Divider, Row } from "antd";
+import { Form, Input, Button, Divider, Row } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import MY_SERVICE from "../services";
 import { MyContext } from "../context.js";
 const { login } = MY_SERVICE;
-
-const { Option } = Select;
 
 let baseURL =
   process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
 
 function Signup({ history }) {
   const [form] = Form.useForm();
-  const { clearCtxUser, user, setCtxUser } = useContext(MyContext);
+  const { user, setCtxUser } = useContext(MyContext);
 
   async function loginProcess(values) {
     const {

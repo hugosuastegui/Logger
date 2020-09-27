@@ -32,6 +32,9 @@ const MY_SERVICE = {
   requestEmployer: async (employerId) => {
     return await service.get(`/requestEmployer/${employerId}`);
   },
+  getPois: async () => {
+    return await service.get(`/pois`);
+  },
 };
 
 export default MY_SERVICE;
