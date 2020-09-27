@@ -13,12 +13,13 @@ import { MyContext } from "../context.js";
 const { logOut } = MY_SERVICE;
 const { Sider, Header, Content, Footer } = Layout;
 
-function LayoutApp({ children }) {
+function LayoutApp({ children }, history) {
   const { clearCtxUser, user } = useContext(MyContext);
 
   const logoutProcess = async () => {
     await logOut();
     clearCtxUser(user);
+    history.push("/");
   };
 
   return (

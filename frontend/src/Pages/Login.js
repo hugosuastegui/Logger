@@ -47,7 +47,7 @@ function Signup({ history }) {
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Sign Up
+            Log In
           </Button>
         </Form.Item>
       </Form>

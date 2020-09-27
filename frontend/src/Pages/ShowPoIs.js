@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { MyContext } from "../context";
 import MY_SERVICE from "../services/index";
-import { Redirect } from "react-router-dom";
-import { Card, Tag } from "antd";
+import { Redirect, Link } from "react-router-dom";
+import { Card, Tag, Button } from "antd";
 
 const { getUserInfo } = MY_SERVICE;
 
@@ -29,7 +29,13 @@ function ShowPoIs() {
       <div>
         <h1>Show all Pois</h1>
         {pois.map((poi, ind) => (
-          <Card key={ind} title={poi.name} bordered={true}>
+          <Card
+            key={ind}
+            title={poi.name}
+            bordered={true}
+            style={{ marginTop: 16 }}
+            extra={<Link to={`/pois/${poi._id}`}>More</Link>}
+          >
             <p>{poi.location}</p>
             <p>{poi.checkinTime}</p>
             <p>Weekdays:</p>

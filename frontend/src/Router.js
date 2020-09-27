@@ -12,7 +12,7 @@ const Settings = () => <h1>Settings</h1>;
 const Collabs = () => <h1>Collabs</h1>;
 const Employers = () => <h1>Employers</h1>;
 const NewPoi = () => <h1>NewPoi</h1>;
-const EditPoi = () => <h1>EditPoi</h1>;
+const PoiDetail = () => <h1>PoiDetail</h1>;
 
 const Router = () => (
   <BrowserRouter>
@@ -27,7 +27,7 @@ const Router = () => (
         <Route exact path="/employers" component={Employers} />
         <Route exact path="/pois" component={ShowPoIs} />
         <Route exact path="/pois/new" component={NewPoi} />
-        <Route exact path="/pois/:poiId" component={EditPoi} />
+        <Route exact path="/pois/:poiId" component={PoiDetail} />
         <Route component={NotFound} />
       </Switch>
     </LayoutApp>
