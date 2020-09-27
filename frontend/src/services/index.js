@@ -35,6 +35,9 @@ const MY_SERVICE = {
   getPois: async () => {
     return await service.get(`/pois`);
   },
+  getPoi: async () => {
+    return await service.get(`/pois/:poiId`);
+  },
 };
 
 export default MY_SERVICE;

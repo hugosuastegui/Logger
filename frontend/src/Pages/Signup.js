@@ -59,7 +59,7 @@ function Signup({ history }) {
         <Form.Item
           label="Role"
           name="role"
-          rules={[{ required: true, message: "Enter email" }]}
+          rules={[{ required: true, message: "Select Role" }]}
         >
           <Select defaultValue="Employer">
             <Option value="true">Employer</Option>

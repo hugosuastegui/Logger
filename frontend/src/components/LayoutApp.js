@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Layout, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   UploadOutlined,
   UserOutlined,
@@ -13,13 +13,14 @@ import { MyContext } from "../context.js";
 const { logOut } = MY_SERVICE;
 const { Sider, Header, Content, Footer } = Layout;
 
-function LayoutApp({ children }, history) {
+function LayoutApp({ children }) {
   const { clearCtxUser, user } = useContext(MyContext);
+  const history = useHistory();
 
   const logoutProcess = async () => {
     await logOut();
     clearCtxUser(user);
-    history.push("/");
+    history.push("/login");
   };
 
   return (
@@ -40,11 +41,24 @@ function LayoutApp({ children }, history) {
             <Menu.Item key="1" icon={<UserOutlined />}>
               <Link to="/">Brief</Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+            {user.role === "collab" ? (
+              <>
+                <Menu.Item key="2" icon={<UploadOutlined />}>
+                  <Link to="/scan">Scan QR</Link>
+                </Menu.Item>
+              </>
+            ) : (
+              <>
+                <Menu.Item key="2" icon={<UploadOutlined />}>
+                  <Link to="/pois">PoIs</Link>
+                </Menu.Item>
+                <Menu.Item key="3" icon={<UploadOutlined />}>
+                  <Link to="/collabs">Collabs</Link>
+                </Menu.Item>
+              </>
+            )}
+            <Menu.Item key="3" icon={<VideoCameraOutlined />}>
               <Link to="/settings">Settings</Link>
-            </Menu.Item>
-            <Menu.Item key="3" icon={<UploadOutlined />}>
-              nav 3
             </Menu.Item>
             <Menu.Item key="4" icon={<UserOutlined />} onClick={logoutProcess}>
               Logout

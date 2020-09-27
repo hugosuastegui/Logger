@@ -27,7 +27,7 @@ function ShowPoIs() {
   return user ? (
     user.role === "employer" ? (
       <div>
-        <h1>Show all Pois</h1>
+        <h1>Points of Interest</h1>
         {pois.map((poi, ind) => (
           <Card
             key={ind}
@@ -44,6 +44,11 @@ function ShowPoIs() {
             ))}
           </Card>
         ))}
+        <br />
+        <br />
+        <Button>
+          <Link to="/pois/new">Create Point of Interest</Link>
+        </Button>
       </div>
     ) : (
       <Redirect to="/" />
