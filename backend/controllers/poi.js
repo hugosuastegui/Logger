@@ -42,6 +42,7 @@ exports.updatePoi = async (req, res) => {
     },
     { new: true }
   );
+  console.log(poi);
   res.status(200).json({ poi });
 };
 

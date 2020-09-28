@@ -35,8 +35,11 @@ const MY_SERVICE = {
   getPois: async () => {
     return await service.get(`/pois`);
   },
-  getPoi: async () => {
-    return await service.get(`/pois/:poiId`);
+  getPoi: async (poiId) => {
+    return await service.get(`/pois/${poiId}`);
+  },
+  updatePoi: async (poiId, poi) => {
+    return await service.put(`/pois/${poiId}`, poi);
   },
 };
 

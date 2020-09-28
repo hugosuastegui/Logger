@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Log = require("../models/Log");
 
 exports.getInfo = async (req, res, next) => {
-  await User.findById(req.user._id)
+  await User.findById(req.user.id)
     .populate("employerPoIs")
     .populate("collabLogs")
     .populate("collabs")

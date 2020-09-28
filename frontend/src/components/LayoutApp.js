@@ -49,18 +49,18 @@ function LayoutApp({ children }) {
               </>
             ) : (
               <>
-                <Menu.Item key="2" icon={<UploadOutlined />}>
+                <Menu.Item key="3" icon={<UploadOutlined />}>
                   <Link to="/pois">PoIs</Link>
                 </Menu.Item>
-                <Menu.Item key="3" icon={<UploadOutlined />}>
+                <Menu.Item key="4" icon={<UploadOutlined />}>
                   <Link to="/collabs">Collabs</Link>
                 </Menu.Item>
               </>
             )}
-            <Menu.Item key="3" icon={<VideoCameraOutlined />}>
+            <Menu.Item key="5" icon={<VideoCameraOutlined />}>
               <Link to="/settings">Settings</Link>
             </Menu.Item>
-            <Menu.Item key="4" icon={<UserOutlined />} onClick={logoutProcess}>
+            <Menu.Item key="6" icon={<UserOutlined />} onClick={logoutProcess}>
               Logout
             </Menu.Item>
           </Menu>

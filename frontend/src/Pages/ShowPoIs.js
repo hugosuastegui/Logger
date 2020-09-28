@@ -10,8 +10,6 @@ function ShowPoIs() {
   const [pois, setpois] = useState([]);
   const { user } = useContext(MyContext);
 
-  console.log(user);
-
   useEffect(() => {
     async function fetchInfo() {
       const {
@@ -40,7 +38,7 @@ function ShowPoIs() {
             <p>{poi.checkinTime}</p>
             <p>Weekdays:</p>
             {poi.weekdays.map((day, ind) => (
-              <Tag>{day}</Tag>
+              <Tag key={ind}>{day}</Tag>
             ))}
           </Card>
         ))}

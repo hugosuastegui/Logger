@@ -6,13 +6,13 @@ import Signup from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Brief from "./Pages/Brief";
 import ShowPoIs from "./Pages/ShowPoIs";
+import PoiDetail from "./Pages/PoiDetail";
 
 const Scan = () => <h1>Scan</h1>;
 const Settings = () => <h1>Settings</h1>;
 const Collabs = () => <h1>Collabs</h1>;
 const Employers = () => <h1>Employers</h1>;
 const NewPoi = () => <h1>NewPoi</h1>;
-const PoiDetail = () => <h1>PoiDetail</h1>;
 
 const Router = () => (
   <BrowserRouter>
