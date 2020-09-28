@@ -41,6 +41,9 @@ const MY_SERVICE = {
   updatePoi: async (poiId, poi) => {
     return await service.put(`/pois/${poiId}`, poi);
   },
+  createPoi: async (poi) => {
+    return await service.post(`/pois`, poi);
+  },
 };
 
 export default MY_SERVICE;

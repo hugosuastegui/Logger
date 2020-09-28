@@ -7,12 +7,12 @@ import Login from "./Pages/Login";
 import Brief from "./Pages/Brief";
 import ShowPoIs from "./Pages/ShowPoIs";
 import PoiDetail from "./Pages/PoiDetail";
+import NewPoi from "./Pages/NewPoi";
 
 const Scan = () => <h1>Scan</h1>;
 const Settings = () => <h1>Settings</h1>;
 const Collabs = () => <h1>Collabs</h1>;
 const Employers = () => <h1>Employers</h1>;
-const NewPoi = () => <h1>NewPoi</h1>;
 
 const Router = () => (
   <BrowserRouter>
