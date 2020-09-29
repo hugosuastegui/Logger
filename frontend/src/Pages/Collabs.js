@@ -34,17 +34,36 @@ function Collabs() {
   }, []);
 
   async function removeCollab(id) {
-    let values = { collabValidated: true };
-    // console.log(id, values);
+    let values = { collabValidated: false };
+    await updateUser(id, values);
+    const {
+      data: {
+        user: { collabs },
+      },
+    } = await getUserInfo();
+    const unvalidated = collabs.filter((el) => !el.collabValidated);
+    const validated = collabs.filter((el) => el.collabValidated);
+    setunvalidatedCollabs(unvalidated);
+    setvalidatedCollabs(validated);
   }
 
   async function acceptCollab(id) {
     let values = { collabValidated: true };
     await updateUser(id, values);
+    const {
+      data: {
+        user: { collabs },
+      },
+    } = await getUserInfo();
+    setcollaborators(collabs);
+    const unvalidated = collabs.filter((el) => !el.collabValidated);
+    const validated = collabs.filter((el) => el.collabValidated);
+    setunvalidatedCollabs(unvalidated);
+    setvalidatedCollabs(validated);
   }
 
   async function denyCollab(id) {
-    let values = { collabValidated: false, employer: [] };
+    let values = { $set: { collabValidated: false }, $unset: { employers: 1 } };
     let newCollabs = collaborators.filter((el) => el._id !== id);
     await updateUser(id, values);
     const {
@@ -54,7 +73,9 @@ function Collabs() {
     } = await updateUser(user._id, { collabs: newCollabs });
     setcollaborators(collabs);
     const unvalidated = collabs.filter((el) => !el.collabValidated);
+    const validated = collabs.filter((el) => el.collabValidated);
     setunvalidatedCollabs(unvalidated);
+    setvalidatedCollabs(validated);
   }
 
   async function toggle(value) {
