@@ -8,10 +8,10 @@ import Brief from "./Pages/Brief";
 import ShowPoIs from "./Pages/ShowPoIs";
 import PoiDetail from "./Pages/PoiDetail";
 import NewPoi from "./Pages/NewPoi";
+import Collabs from "./Pages/Collabs";
 
 const Scan = () => <h1>Scan</h1>;
 const Settings = () => <h1>Settings</h1>;
-const Collabs = () => <h1>Collabs</h1>;
 const Employers = () => <h1>Employers</h1>;
 
 const Router = () => (

@@ -34,24 +34,32 @@ exports.requestEmployer = async (req, res, next) => {
   }
 };
 
-// router.get("/info", isAuth, (req, res, next) => {
-//   User.findById(req.user.id)
-//     .populate("employerPoIs")
-//     .populate("collabLogs")
-//     .populate("collabs")
-//     .populate("employer")
-//     .then((user) => res.status(200).json({ user }))
-//     .catch((err) =>
-//       res.status(500).json({ message: `Error ocurred in get/profile: ${err}` })
-//     );
-// });
+exports.updateUser = async (req, res) => {
+  const userId = req.params.userId;
+  const user = await User.findById(userId);
+  if (typeof req.body.email !== undefined) {
+    user.email = req.body.email;
+  }
+  if (typeof req.body.name !== undefined) {
+    user.name = req.body.name;
+  }
+  if (typeof req.body.password !== undefined) {
+    user.password = req.body.password;
+  }
+  if (typeof req.body.photo !== undefined) {
+    user.photo = req.body.photo;
+  }
+  if (typeof req.body.nickname !== undefined) {
+    user.nickname = req.body.nickname;
+  }
+  if (typeof req.body.role !== undefined) {
+    user.role = req.body.role;
+  }
+  if (typeof req.body.collabs !== undefined) {
+    user.collabs = req.body.collabs;
+  }
 
-// router.get("/employers", isAuth, (req, res, next) => {
-//   User.find({ role: "employer" })
-//     .populate("employerPoIs")
-//     .populate("collabLogs")
-//     .populate("collabs")
-//     .populate("employer")
-//     .then((user) => res.status(200).json({ user }))
-//     .catch((err) => res.status(500).json({ err }));
-// });
+  user.save();
+  console.log(user);
+  res.status(200).json({ user });
+};
