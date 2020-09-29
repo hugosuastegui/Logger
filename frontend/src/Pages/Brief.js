@@ -19,9 +19,11 @@ const Brief = () => {
           user: { collabLogs },
         },
       } = await getUserInfo();
+
       setlogs(collabLogs);
     }
     fetchInfo();
+    console.log(user);
   }, []);
 
   const addEmployer = async (values) => {
@@ -31,7 +33,21 @@ const Brief = () => {
 
   return user ? (
     user.role === "employer" ? (
-      <h1>Employer</h1>
+      <div>
+        <img
+          style={{ width: "5rem", borderRadius: "50%" }}
+          src={user.photo}
+          alt="UserPhoto"
+        />
+        <br />
+        <br />
+        <h2>{user.email}</h2>
+        <br />
+        <h3>Share this code with collabs</h3>
+        <p>{user._id}</p>
+        <br />
+        <br />
+      </div>
     ) : (
       <div>
         <img
@@ -43,8 +59,7 @@ const Brief = () => {
         <br />
         <h2>{user.email}</h2>
         <br />
-        <br />
-        {user.employer === null ? (
+        {user.employer === undefined ? (
           <Form
             layout="vertical"
             name="basic"

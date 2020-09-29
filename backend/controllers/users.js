@@ -27,7 +27,10 @@ exports.requestEmployer = async (req, res, next) => {
   const { employerId } = req.params;
   const employer = await User.findById(employerId);
   if (typeof employer !== undefined) {
-    await User.findByIdAndUpdate(req.user.id, { $push: { employer } });
+    const collabs = await User.findByIdAndUpdate(req.user.id, {
+      $push: { employer },
+    });
+    await User.findByIdAndUpdate(employerId, { $push: { collabs } });
     res.status(200).json({ message: "Please wait to be validated" });
   } else {
     res.status(200).json({ message: `Couldn't find user` });

@@ -7,8 +7,8 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
 router.post("/signup", async (req, res, next) => {
-  console.log(req.body.role);
-  const role = req.body.role ? "employer" : "collab";
+  console.log(req.body.role === "true");
+  const role = req.body.role === "true" ? "employer" : "collab";
   const email = req.body.email;
   const password = req.body.password;
   const repeatedPassword = req.body.repeatedPassword;

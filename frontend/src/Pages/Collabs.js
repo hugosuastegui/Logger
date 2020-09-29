@@ -10,7 +10,7 @@ const { Option } = Select;
 
 function Collabs() {
   const { user } = useContext(MyContext);
-  const [collaborators, setcollaborators] = useState([]);
+  const [collaborators, setcollaborators] = useState();
   const [validatedCollabs, setvalidatedCollabs] = useState();
   const [unvalidatedCollabs, setunvalidatedCollabs] = useState();
   const [employerId, setemployerId] = useState();
@@ -24,24 +24,28 @@ function Collabs() {
         },
       } = await getUserInfo();
 
-      const {
-        data: {
-          user: { _id },
-        },
-      } = await getUserInfo();
+      // const {
+      //   data: {
+      //     user: { _id },
+      //   },
+      // } = await getUserInfo();
 
-      setemployerId(_id);
-      setcollaborators(collabs);
+      // console.log(collabs);
+      // console.log(_id);
+
+      await setcollaborators(collabs);
+      // setemployerId(_id);
+
+      // const validated = await collabs.filter((el) => {
+      //   return el.collabValidated;
+      // });
+      // const unvalidated = await collabs.filter((el) => {
+      //   return el.collabValidated === "false";
+      // });
+
       console.log(collaborators);
-
-      const validated = await collaborators.filter((el) => {
-        return el.collabValidated;
-      });
-      const unvalidated = await collaborators.filter((el) => {
-        return !el.collabValidated;
-      });
-      setvalidatedCollabs(validated);
-      setunvalidatedCollabs(unvalidated);
+      // setvalidatedCollabs(validated);
+      // setunvalidatedCollabs(unvalidated);
     }
     fetchInfo();
   }, []);
@@ -61,7 +65,7 @@ function Collabs() {
   }
 
   async function toggle(value) {
-    console.log(value);
+    settoggleValidated(value);
     console.log(collaborators);
     console.log(validatedCollabs);
     console.log(unvalidatedCollabs);
@@ -70,7 +74,7 @@ function Collabs() {
   return collaborators && validatedCollabs && unvalidatedCollabs ? (
     <div>
       <h2>Show Collabs</h2>
-      <Select placeholder="Show Valid Collabs" onChange={() => toggle()}>
+      <Select placeholder="Show Valid Collabs" onChange={(e) => toggle(e)}>
         <Option value={true}>Show Valid Collabs</Option>
         <Option value={false}>Show Pending Requests</Option>
       </Select>
