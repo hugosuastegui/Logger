@@ -10,10 +10,9 @@ const { Option } = Select;
 
 function Collabs() {
   const { user } = useContext(MyContext);
-  const [collaborators, setcollaborators] = useState();
-  const [validatedCollabs, setvalidatedCollabs] = useState();
-  const [unvalidatedCollabs, setunvalidatedCollabs] = useState();
-  const [employerId, setemployerId] = useState();
+  const [collaborators, setcollaborators] = useState([]);
+  const [validatedCollabs, setvalidatedCollabs] = useState([]);
+  const [unvalidatedCollabs, setunvalidatedCollabs] = useState([]);
   const [toggleValidated, settoggleValidated] = useState(true);
 
   useEffect(() => {
@@ -24,65 +23,66 @@ function Collabs() {
         },
       } = await getUserInfo();
 
-      // const {
-      //   data: {
-      //     user: { _id },
-      //   },
-      // } = await getUserInfo();
+      const unvalidated = collabs.filter((el) => !el.collabValidated);
+      const validated = collabs.filter((el) => el.collabValidated);
 
-      // console.log(collabs);
-      // console.log(_id);
-
-      await setcollaborators(collabs);
-      // setemployerId(_id);
-
-      // const validated = await collabs.filter((el) => {
-      //   return el.collabValidated;
-      // });
-      // const unvalidated = await collabs.filter((el) => {
-      //   return el.collabValidated === "false";
-      // });
-
-      console.log(collaborators);
-      // setvalidatedCollabs(validated);
-      // setunvalidatedCollabs(unvalidated);
+      setcollaborators(collabs);
+      setvalidatedCollabs(validated);
+      setunvalidatedCollabs(unvalidated);
     }
     fetchInfo();
   }, []);
 
+  async function removeCollab(id) {
+    let values = { collabValidated: true };
+    // console.log(id, values);
+  }
+
   async function acceptCollab(id) {
     let values = { collabValidated: true };
-    console.log(id, values);
-    // await updateUser(id, values);
+    await updateUser(id, values);
   }
 
   async function denyCollab(id) {
-    let values = { collabValidated: false };
-    let newCollabs = await collaborators.filter((el) => el._id !== id);
-    console.log(newCollabs);
-    // await updateUser(id, values);
-    // await updateUser(employerId, collaborators);
+    let values = { collabValidated: false, employer: [] };
+    let newCollabs = collaborators.filter((el) => el._id !== id);
+    await updateUser(id, values);
+    const {
+      data: {
+        user: { collabs },
+      },
+    } = await updateUser(user._id, { collabs: newCollabs });
+    setcollaborators(collabs);
+    const unvalidated = collabs.filter((el) => !el.collabValidated);
+    setunvalidatedCollabs(unvalidated);
   }
 
   async function toggle(value) {
     settoggleValidated(value);
-    console.log(collaborators);
-    console.log(validatedCollabs);
-    console.log(unvalidatedCollabs);
   }
 
   return collaborators && validatedCollabs && unvalidatedCollabs ? (
     <div>
       <h2>Show Collabs</h2>
-      <Select placeholder="Show Valid Collabs" onChange={(e) => toggle(e)}>
+      <Select defaultValue={true} onChange={(e) => toggle(e)}>
         <Option value={true}>Show Valid Collabs</Option>
         <Option value={false}>Show Pending Requests</Option>
       </Select>
+      <br />
+      <br />
       {toggleValidated ? (
         <div>
           <h1>Validated Collabs</h1>
           {validatedCollabs.map((el, ind) => (
-            <Card>
+            <Card
+              actions={[
+                <Button type="danger" onClick={() => removeCollab(el._id)}>
+                  Remove Collab
+                </Button>,
+              ]}
+              style={{ marginTop: 16 }}
+              key={ind}
+            >
               <Meta
                 avatar={<Avatar src={el.photo} />}
                 title={el.name}
@@ -97,9 +97,15 @@ function Collabs() {
           {unvalidatedCollabs.map((el, ind) => (
             <Card
               actions={[
-                <Button onClick={() => acceptCollab(el.id)}>Accept</Button>,
-                <Button onClick={() => denyCollab(el.id)}>Deny</Button>,
+                <Button type="primary" onClick={() => acceptCollab(el._id)}>
+                  Accept
+                </Button>,
+                <Button type="danger" onClick={() => denyCollab(el._id)}>
+                  Deny
+                </Button>,
               ]}
+              style={{ marginTop: 16 }}
+              key={ind}
             >
               <Meta
                 avatar={<Avatar src={el.photo} />}
@@ -115,7 +121,7 @@ function Collabs() {
     <div>
       <h2>No Collabs To Show</h2>
       <p>Share code to add</p>
-      <strong>{employerId}</strong>
+      <strong>{user._id}</strong>
     </div>
   );
 }

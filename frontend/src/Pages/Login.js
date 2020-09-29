@@ -19,7 +19,6 @@ function Signup({ history }) {
     delete user.password;
     delete user.hash;
     delete user.salt;
-    console.log(user);
     setCtxUser(user);
     history.push("/");
   }

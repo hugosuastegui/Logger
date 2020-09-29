@@ -45,8 +45,8 @@ const MY_SERVICE = {
   createPoi: async (poi) => {
     return await service.post(`/pois`, poi);
   },
-  updateUser: async (user) => {
-    return await service.put(`/users/:${user}`, user);
+  updateUser: async (user, values) => {
+    return await service.put(`/users/${user}`, values);
   },
 };
 

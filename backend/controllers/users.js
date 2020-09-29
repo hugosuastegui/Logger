@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Log = require("../models/Log");
 
 exports.getInfo = async (req, res, next) => {
-  await User.findById(req.user.id)
+  await User.findById(req.user._id)
     .populate("employerPoIs")
     .populate("collabLogs")
     .populate("collabs")
@@ -39,30 +39,40 @@ exports.requestEmployer = async (req, res, next) => {
 
 exports.updateUser = async (req, res) => {
   const userId = req.params.userId;
-  const user = await User.findById(userId);
-  if (typeof req.body.email !== undefined) {
+  const user = await User.findById(userId)
+    .populate("employerPoIs")
+    .populate("collabLogs")
+    .populate("collabs")
+    .populate("employer");
+  console.log(req.body);
+
+  if (typeof req.body.email !== "undefined") {
     user.email = req.body.email;
   }
-  if (typeof req.body.name !== undefined) {
+  if (typeof req.body.name !== "undefined") {
     user.name = req.body.name;
   }
-  if (typeof req.body.password !== undefined) {
+  if (typeof req.body.password !== "undefined") {
     user.password = req.body.password;
   }
-  if (typeof req.body.photo !== undefined) {
+  if (typeof req.body.photo !== "undefined") {
     user.photo = req.body.photo;
   }
-  if (typeof req.body.nickname !== undefined) {
+  if (typeof req.body.collabValidated !== "undefined") {
+    user.collabValidated = req.body.collabValidated;
+  }
+  if (typeof req.body.nickname !== "undefined") {
     user.nickname = req.body.nickname;
   }
-  if (typeof req.body.role !== undefined) {
+  if (typeof req.body.role !== "undefined") {
     user.role = req.body.role;
   }
-  if (typeof req.body.collabs !== undefined) {
+  if (typeof req.body.collabs !== "undefined") {
     user.collabs = req.body.collabs;
   }
 
   user.save();
   console.log(user);
+
   res.status(200).json({ user });
 };
